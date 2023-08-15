@@ -9,7 +9,23 @@ window.addEventListener('beforeinstallprompt', (event) => {
 });
 
 // TODO: Implement a click event handler on the `butInstall` element
-butInstall.addEventListener('click', async () => {});
+butInstall.addEventListener('click', async () => {
+    const eventP = window.deferredPrompt;
+    if (!eventP) {
+        eventP.prompt();
+        const result = await  eventP.userChoice;
+        if (result.outcome === 'accepted'){
+            console.log('User Approved');
+        }else {
+            console.log('User Denied');
+        }
+        // hide the button after the user makes a choice 
+        window.deferredPrompt = null;
+        butInstall.style.display = 'none';
+       }
+});
 
 // TODO: Add an handler for the `appinstalled` event
-window.addEventListener('appinstalled', (event) => {});
+window.addEventListener('appinstalled', (event) => {
+    console.log('App Installed!');
+});
